@@ -43,13 +43,15 @@ namespace Saml2WebApp
                 {
                     AuthenticateRequestSigningBehavior = Sustainsys.Saml2.Configuration.SigningBehavior.Never,
                     EntityId = new Sustainsys.Saml2.Metadata.EntityId(Configuration.GetValue<string>("Saml2:EntityId")),
-                    MinIncomingSigningAlgorithm = Configuration.GetValue<string>("Saml2:MinIncomingSigningAlgorithm")
+                    MinIncomingSigningAlgorithm = Configuration.GetValue<string>("Saml2:MinIncomingSigningAlgorithm"),
+                    ReturnUrl = new Uri(Configuration.GetValue<string>("Saml2:ReturnUrl"))
                 };
 
                 // We need to use a cert for Sustainsys.Saml2 to work with logout, so we borrow their sample cert
                 // https://github.com/Sustainsys/Saml2/blob/develop/Samples/SampleAspNetCore2ApplicationNETFramework/Sustainsys.Saml2.Tests.pfx
                 string certFile = string.Format("{0}\\{1}", System.IO.Directory.GetCurrentDirectory(), Configuration.GetValue<string>("Saml2:cert"));
-                options.SPOptions.ServiceCertificates.Add(new System.Security.Cryptography.X509Certificates.X509Certificate2(certFile));
+                string certPassword = Configuration.GetValue<string>("Saml2:certPassword");
+                options.SPOptions.ServiceCertificates.Add(new System.Security.Cryptography.X509Certificates.X509Certificate2(certFile, certPassword));
 
                 // The Azure AD B2C Identity Provider we use
                 options.IdentityProviders.Add(
