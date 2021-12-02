@@ -11,4 +11,10 @@
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.8.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="KLSPL_Certificate.pfx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
